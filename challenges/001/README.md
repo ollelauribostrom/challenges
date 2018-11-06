@@ -34,3 +34,5 @@ Write a function that returns the string `Hello World!`
 Your name will automatically be added to the list below when your PR is merged. If you need to change anything after you have opened your pull request - just add another commit and push it to your `001` branch.
 
 ### Users who completed the challenge
+
+- [ollelauribostrom](https://github.com/ollelauribostrom) - 2018-11-06 22:05:59

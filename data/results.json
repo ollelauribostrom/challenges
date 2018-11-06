@@ -1,7 +1,10 @@
 {
   "challenges": {
     "001": {
-      "completed": []
+      "completed": [
+        "ollelauribostrom"
+      ],
+      "first": "ollelauribostrom"
     }
   }
 }

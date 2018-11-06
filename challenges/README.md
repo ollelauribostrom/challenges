@@ -11,3 +11,4 @@
 ### Highscore
 | Username | Completed Challenges | Points  |
 |:--------:|:--------------------:|:-------:|
+| ollelauribostrom | 1 | 4 |
