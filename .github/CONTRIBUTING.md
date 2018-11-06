@@ -1,14 +1,10 @@
-# Contributing to rebus
-
-For a step-by-step guide on how to make your first contribution, have a look in the [README](https://github.com/ollelauribostrom/rebus#rebus).
+# Contributing to challenges
 
 ## Contribution process overview
 
 1. Fork this project.
 1. Create a feature branch.
-1. Make your changes.
-1. Run the game locally
-1. Run the tests.
+1. Make your changes
 1. Push your changes to your fork/branch.
 1. Open a pull request.
 
@@ -16,7 +12,7 @@ For a step-by-step guide on how to make your first contribution, have a look in 
 
 1. Click the fork button up top.
 1. Clone your fork locally (Notice that git's `origin` reference will point to your forked repository).
-1. It is useful to have the upstream repository registered as well using: `git remote add upstream https://github.com/ollelauribostrom/rebus.git` and periodically fetch it using `git fetch upstream`.
+1. It is useful to have the upstream repository registered as well using: `git remote add upstream https://github.com/ollelauribostrom/challenges.git` and periodically fetch it using `git fetch upstream`.
 
 ### 2. Create a feature branch
 
@@ -27,21 +23,19 @@ Create and switch to a new feature branch: `git checkout -b {branch_name} upstre
 
 Now that you have a new branch you can edit/create/delete files. Use touch-up commits using `git commit --amend`. (You may use git force push after that).
 
-### 4. Run the game locally
+To avoid Travis CI from building your PR (which is currently set up to test challenge solutions), add the following prefix to your commit message: `[skip ci]`
 
-- Install the dependencies: `npm install`.
-- Start the local development server: `npm start`.
+If you are adding a new challenge, please make sure you have:
 
-### 5. Run the tests
+- Added a `README.md` that describes how to solve your challenge. Look at an example [here](challenges/001/README.md)
+- Added tests for your challenge. Look at an example [here](challenges/001/tests/001.spec.js)
+- Added your challenge to the list of challenges [here](challenges/README.md)
+- Added your challenge to the results file [here](data/results.json)
 
-- Run tests: `npm test`.
-- Run lint: `npm run lint`.
-- Run tests and lint: `npm run test:all`.
+### 4. Push your changes to your fork/branch
 
-### 6. Push your changes to your fork/branch
+Push your changes to your fork/branch on GitHub: `git push origin {branch_name}`. For force push, which will destroy previous commits on the server, use `--force` (or `-f`) option.
 
-After lint and all tests pass, push the changes to your fork/branch on GitHub: `git push origin {branch_name}`. For force push, which will destroy previous commits on the server, use `--force` (or `-f`) option.
-
-### 7. Create a pull request
+### 5. Create a pull request
 
 Create a pull request on GitHub for your feature branch.
