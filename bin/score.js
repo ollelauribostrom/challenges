@@ -68,12 +68,21 @@ function generateHighscoreTable() {
   return `${header1}${header2}${rows}`;
 }
 
+function generateRules() {
+  return `### Rules
+  - Completed challenge: 1 point
+  - First to complete: 3 points
+  - Second to complete: 2 points
+  - Third to complete: 1 point\n\n`;
+}
+
 function updateHighscoreReadme() {
   const challenges = Object.keys(results.challenges).map(
     challenge => `- [Challenge ${challenge}](${challenge}/)`
   );
+  const rules = generateRules();
   const table = generateHighscoreTable();
-  const md = `# Challenges\n\n${challenges.join('\n')}\n\n### Highscore\n${table}`;
+  const md = `# Challenges\n\n${challenges.join('\n')}\n\n${rules}### Highscore\n${table}`;
   fs.writeFileSync(path.join(__dirname, '../challenges/README.md'), md);
 }
 

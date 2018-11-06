@@ -4,7 +4,7 @@
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/javascript-challenges/Lobby)
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/)
 
-Practice your Git and JavaScript skills by solving a set of challenges. Your name will automatically be added to the highscore once your solution passes the tests.
+Practice your Git and JavaScript skills by solving a set of challenges. Your name will automatically be added to the highscore once your solution passes the tests and have been merged.
 
 ## Challenges
 

@@ -27,10 +27,10 @@ To avoid Travis CI from building your PR (which is currently set up to test chal
 
 If you are adding a new challenge, please make sure you have:
 
-- Added a `README.md` that describes how to solve your challenge. Look at an example [here](challenges/001/README.md)
-- Added tests for your challenge. Look at an example [here](challenges/001/tests/001.spec.js)
-- Added your challenge to the list of challenges [here](challenges/README.md)
-- Added your challenge to the results file [here](data/results.json)
+- Added a `README.md` that describes how to solve your challenge. Look at an example [here](https://github.com/ollelauribostrom/challenges/tree/master/challenges/001)
+- Added tests for your challenge. Look at an example [here](https://github.com/ollelauribostrom/challenges/blob/master/challenges/001/tests/001.spec.js)
+- Added your challenge to the list of challenges [here](https://github.com/ollelauribostrom/challenges/tree/master/challenges)
+- Added your challenge to the results file [here](https://github.com/ollelauribostrom/challenges/blob/master/data/results.json)
 
 ### 4. Push your changes to your fork/branch
 
