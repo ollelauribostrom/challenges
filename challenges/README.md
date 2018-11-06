@@ -3,3 +3,5 @@
 - [Challenge 001](001/)
 
 ### Highscore
+| Username | Completed Challenges | Points  |
+|:--------:|:--------------------:|:-------:|

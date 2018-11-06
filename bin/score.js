@@ -2,26 +2,42 @@ const fs = require('fs');
 const path = require('path');
 const results = require('../data/results.json');
 
-function updateResults(username) {
-  if (!results.challenges[challenge].completed.includes(username)) {
-    results.challenges[challenge].completed.push(username);
-  } else {
-    return;
-  }
-  if (!results.challenges[challenge].first || results.challenges[challenge].first === '') {
-    results.challenges[challenge].first = username;
-    return;
-  }
-  if (!results.challenges[challenge].second || results.challenges[challenge].second === '') {
-    results.challenges[challenge].second = username;
-    return;
-  }
-  if (!results.challenges[challenge].third || results.challenges[challenge].third === '') {
-    results.challenges[challenge].third = username;
+function getNewSolutions() {
+  const solutions = [];
+  Object.keys(results.challenges).forEach(challenge => {
+    const challengePath = path.join(__dirname, `../challenges/${challenge}`);
+    fs.readdirSync(challengePath).forEach(file => {
+      const isDirectory = fs.lstatSync(path.join(challengePath, file)).isDirectory();
+      if (file === 'tests' || !isDirectory) {
+        return;
+      }
+      if (!results.challenges[challenge].completed.includes(file)) {
+        solutions.push({ challenge, username: file, challengePath });
+      }
+    });
+  });
+  return solutions;
+}
+
+function addSolutionToChallengeReadme({ username, challengePath }) {
+  const date = process.argv[2];
+  const md = `\n- [${username}](https://github.com/${username}) - ${date}`;
+  fs.appendFileSync(path.join(challengePath, 'README.md'), md);
+}
+
+function updateResults(solution) {
+  const challenge = results.challenges[solution.challenge];
+  challenge.completed.push(solution.username);
+  if (!challenge.first || challenge.first === '') {
+    challenge.first = solution.username;
+  } else if (!challenge.second || challenge.second === '') {
+    challenge.second = solution.username;
+  } else if (!challenge.third || challenge.third === '') {
+    challenge.third = solution.username;
   }
 }
 
-function generateLeaderboard() {
+function generateHighscoreTable() {
   const scores = {};
   Object.values(results.challenges).forEach(challenge => {
     challenge.completed.forEach(username => {
@@ -34,11 +50,9 @@ function generateLeaderboard() {
     });
     if (challenge.first) {
       scores[challenge.first].points += 3;
-    }
-    if (challenge.second) {
+    } else if (challenge.second) {
       scores[challenge.second].points += 2;
-    }
-    if (challenge.third) {
+    } else if (challenge.third) {
       scores[challenge.third].points += 1;
     }
   });
@@ -54,31 +68,26 @@ function generateLeaderboard() {
   return `${header1}${header2}${rows}`;
 }
 
-function updateLeaderboardReadme() {
+function updateHighscoreReadme() {
   const challenges = Object.keys(results.challenges).map(
     challenge => `- [Challenge ${challenge}](${challenge}/)`
   );
-  const leaderBoard = generateLeaderboard();
-  const md = `# Challenges\n\n${challenges.join('\n')}\n\n### Highscore\n${leaderBoard}`;
+  const table = generateHighscoreTable();
+  const md = `# Challenges\n\n${challenges.join('\n')}\n\n### Highscore\n${table}`;
   fs.writeFileSync(path.join(__dirname, '../challenges/README.md'), md);
 }
 
-function updateChallengeReadme(username, challenge, date) {
-  if (!results.challenges[challenge].completed.includes(username)) {
-    const md = `\n- [${username}](https://github.com/${username}) - ${date}`;
-    fs.appendFileSync(path.join(__dirname, `../challenges/${challenge}/README.md`), md);
-  }
-}
+// Get all new solutions that have not yet been saved to data/results.json
+const newSolutions = getNewSolutions();
 
-const username = process.argv[2];
-const challenge = process.argv[3];
-const date = process.argv[4];
+// Add each new solution to the respective challenge README.md and to results
+newSolutions.forEach(solution => {
+  addSolutionToChallengeReadme(solution);
+  updateResults(solution);
+});
 
-if (!username || !challenge || !date) {
-  throw new Error('Missing needed information');
-}
+// Update the highscore readme based on the new results
+updateHighscoreReadme();
 
-updateChallengeReadme(username, challenge, date);
-updateResults(username);
-updateLeaderboardReadme();
+// Write new results to data/results.json
 fs.writeFileSync(path.join(__dirname, '../data/results.json'), JSON.stringify(results, null, 2));

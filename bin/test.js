@@ -1,23 +1,28 @@
-const getBranch = require('git-branch').sync;
-const getUsername = require('git-username');
+const getLocalBranch = require('git-branch').sync;
+const getLocalUsername = require('git-username');
 const jest = require('jest');
 
-function setTestFilePath() {
-  let path;
+function getUsername() {
   const slug = process.env.TRAVIS_PULL_REQUEST_SLUG;
   if (slug && slug !== '') {
-    [path] = process.env.TRAVIS_PULL_REQUEST_SLUG.split('/');
+    return process.env.TRAVIS_PULL_REQUEST_SLUG.split('/')[0];
   }
-  process.env.TESTPATH = path || getUsername();
+  return getLocalUsername();
 }
 
-function getChallengePath() {
-  return process.env.TRAVIS_PULL_REQUEST_BRANCH || getBranch();
+function getBranch() {
+  return process.env.TRAVIS_PULL_REQUEST_BRANCH || getLocalBranch();
 }
 
-setTestFilePath();
+// Collect the branch name and username
+const username = getUsername();
+const branch = getBranch();
 
+// Set TESTPATH env variable to only test the current user's implementation
+process.env.TESTPATH = username;
+
+// Run tests for the current challenge based on the branch name
 jest
-  .runCLI({ roots: [`challenges/${getChallengePath()}`] }, [__dirname])
+  .runCLI({ roots: [`challenges/${branch}`] }, [__dirname])
   .then(({ results }) => process.exit(results.success ? 0 : 1))
   .catch(() => process.exit(1));
